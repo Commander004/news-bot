@@ -1,45 +1,50 @@
 import time
+import random
 
+from config import NEWS_SOURCES
 from rss import get_latest_news
-from parser import parse_news
-from database import load_last_link, save_last_link
 from sender import send_news
-from config import CHECK_INTERVAL
+
 
 print("🟢 ربات خبری شروع شد...")
 
+last_sent = None  # برای جلوگیری از تکرار
+
 while True:
-
     try:
-        news = get_latest_news()
 
+        # 🎲 انتخاب رندوم از بین سایت‌ها
+        source = random.choice(NEWS_SOURCES)
+        print("📡 منبع انتخاب شده:", source)
+
+        # 📰 گرفتن خبر از همون سایت
+        news = get_latest_news(source)
+
+        # ❌ اگر خبری نبود
         if not news:
-            print("❌ خبری پیدا نشد")
-            time.sleep(CHECK_INTERVAL)
+            print("⚠️ خبری پیدا نشد")
+            time.sleep(10)
             continue
 
-        last_link = load_last_link()
+        print("NEW:", news["link"])
 
-        print("LAST:", last_link)
-        print("NEW :", news["link"])
+        # 🔁 جلوگیری از ارسال خبر تکراری
+        if news["link"] == last_sent:
+            print("🔁 خبر تکراری بود، رد شد")
+            time.sleep(10)
+            continue
 
-        # 🟢 جلوگیری از تکرار
-        if news["link"] != last_link:
+        print("🆕 خبر جدید پیدا شد")
 
-            print("🆕 خبر جدید پیدا شد")
+        # 📤 ارسال به کانال
+        send_news(news)
 
-            full_news = parse_news(news["link"])
+        # 💾 ذخیره آخرین خبر
+        last_sent = news["link"]
 
-            send_news(full_news)
-
-            save_last_link(news["link"])
-
-            print("💾 خبر ذخیره شد")
-
-        else:
-            print("ℹ️ خبر تکراری بود، رد شد")
+        # ⏱ مکث برای جلوگیری از فشار به سایت
+        time.sleep(10)
 
     except Exception as e:
         print("❌ خطا:", e)
-
-    time.sleep(CHECK_INTERVAL)
+        time.sleep(5)
