@@ -15,3 +15,5 @@ CHANNEL_ID = "@AkhbarLahzaei_ir"
 
 # 🔥 اینو اضافه کن:
 API_URL = f"https://tapi.bale.ai/bot{BOT_TOKEN}" 
+
+CHECK_INTERVAL = 300  # هر 5 دقیقه (به ثانی
