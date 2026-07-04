@@ -47,4 +47,4 @@ while True:
 
     except Exception as e:
         print("❌ خطا:", e)
-        time.sleep(120)
+        time.sleep(350)
