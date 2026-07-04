@@ -1,10 +1,16 @@
 import requests
 from config import BOT_TOKEN, CHANNEL_ID
+from image import get_image
 
 
 def send_news(news):
 
-    print("📤 در حال ارسال پیام...")
+    print("📤 در حال ارسال خبر...")
+
+    photo = get_image(news["link"])
+
+    if not photo:
+        photo = "https://i.imgur.com/default.jpg"
 
     caption = f"""
 📰 {news['title']}
@@ -15,32 +21,19 @@ def send_news(news):
 📢 @AkhbarLahzaei_ir
 """
 
-    try:
+    url = f"https://tapi.bale.ai/bot{BOT_TOKEN}/sendPhoto"
 
-        # 🟢 اگر عکس داشت
-        if news.get("image"):
+    data = {
+        "chat_id": CHANNEL_ID,
+        "photo": photo,
+        "caption": caption
+    }
 
-            url = f"https://tapi.bale.ai/bot{BOT_TOKEN}/sendPhoto"
+    r = requests.post(url, data=data)
 
-            data = {
-                "chat_id": CHANNEL_ID,
-                "photo": news["image"],
-                "caption": caption
-            }
+    print("📨 پاسخ:", r.text)
 
-        else:
-
-            url = f"https://tapi.bale.ai/bot{BOT_TOKEN}/sendMessage"
-
-            data = {
-                "chat_id": CHANNEL_ID,
-                "text": caption
-            }
-
-        r = requests.post(url, data=data)
-
-        print("📨 پاسخ:", r.text)
-        print("✅ خبر ارسال شد")
-
-    except Exception as e:
-        print("❌ خطا:", e)
+    if r.status_code == 200:
+        print("✅ خبر با عکس ارسال شد")
+    else:
+        print("❌ ارسال ناموفق")
