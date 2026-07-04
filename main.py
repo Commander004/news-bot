@@ -23,7 +23,7 @@ while True:
         # ❌ اگر خبری نبود
         if not news:
             print("⚠️ خبری پیدا نشد")
-            time.sleep(10)
+            time.sleep(20)
             continue
 
         print("NEW:", news["link"])
@@ -31,7 +31,7 @@ while True:
         # 🔁 جلوگیری از ارسال خبر تکراری
         if news["link"] == last_sent:
             print("🔁 خبر تکراری بود، رد شد")
-            time.sleep(10)
+            time.sleep(20)
             continue
 
         print("🆕 خبر جدید پیدا شد")
@@ -43,8 +43,8 @@ while True:
         last_sent = news["link"]
 
         # ⏱ مکث برای جلوگیری از فشار به سایت
-        time.sleep(10)
+        time.sleep(100)
 
     except Exception as e:
         print("❌ خطا:", e)
-        time.sleep(5)
+        time.sleep(120)
