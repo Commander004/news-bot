@@ -8,8 +8,7 @@ def parse_news(url):
     headers = {"User-Agent": "Mozilla/5.0"}
 
     res = requests.get(url, headers=headers, timeout=10)
-    soup = BeautifulSoup(res.text, "lxml")
-
+    soup = BeautifulSoup(html, "html.parser")
     # عنوان
     title_tag = soup.find(class_="title_news")
     title = title_tag.get_text(" ", strip=True) if title_tag else ""
