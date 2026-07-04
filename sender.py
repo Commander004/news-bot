@@ -11,8 +11,6 @@ def send_news(news):
 
 📝 {news['subtitle']}
 
-🔗 {news['link']}
-
 ━━━━━━━━━━━━━━
 📢 @AkhbarLahzaei_ir
 """
