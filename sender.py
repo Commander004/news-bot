@@ -15,14 +15,28 @@ def send_news(news):
 📢 @AkhbarLahzaei_ir
 """
 
-    url = f"https://tapi.bale.ai/bot{BOT_TOKEN}/sendMessage"
-
-    data = {
-        "chat_id": CHANNEL_ID,
-        "text": caption
-    }
-
     try:
+
+        # 🟢 اگر عکس داشت
+        if news.get("image"):
+
+            url = f"https://tapi.bale.ai/bot{BOT_TOKEN}/sendPhoto"
+
+            data = {
+                "chat_id": CHANNEL_ID,
+                "photo": news["image"],
+                "caption": caption
+            }
+
+        else:
+
+            url = f"https://tapi.bale.ai/bot{BOT_TOKEN}/sendMessage"
+
+            data = {
+                "chat_id": CHANNEL_ID,
+                "text": caption
+            }
+
         r = requests.post(url, data=data)
 
         print("📨 پاسخ:", r.text)
