@@ -8,7 +8,10 @@ NEWS_SOURCES = [
     "https://www.yjc.ir/fa/rss"
 ]
 
-
-BOT_TOKEN = "988843357:oHODR91LgeoclF4vflLzAsKeTPig-qnlCww"
+BOT_TOKEN = "988843357:jd2aZ3rY6cSWTEnC6hgDNAa1cRh4xqRFEaQ"
 
 CHANNEL_ID = "@AkhbarLahzaei_ir"
+
+
+# 🔥 اینو اضافه کن:
+API_URL = f"https://tapi.bale.ai/bot{BOT_TOKEN}" 
