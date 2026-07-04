@@ -1,28 +1,20 @@
 import feedparser
+import random
+from config import NEWS_SOURCES
 
 
-def get_latest_news(source):
-    feed = feedparser.parse(source)
+def get_latest_news():
+
+    url = random.choice(NEWS_SOURCES)
+    feed = feedparser.parse(url)
 
     if not feed.entries:
         return None
 
-    entry = feed.entries[0]
+    latest = feed.entries[0]
 
-    # 🟢 عکس
-    image = None
-
-    if hasattr(entry, "media_content"):
-        image = entry.media_content[0].get("url")
-
-    elif hasattr(entry, "media_thumbnail"):
-        image = entry.media_thumbnail[0].get("url")
-
-    # 🟢 خروجی تمیز
     return {
-        "title": entry.title,
-        "subtitle": entry.get("summary", ""),
-        "body": entry.get("summary", ""),
-        "link": entry.link,
-        "image": image
-    }
+        "title": latest.title,
+        "subtitle": latest.get("summary", "بدون توضیح"),
+        "link": latest.link
+    }	
